@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: PurpleMerit Backend API
+  description: Real-Time Collaborative Workspace Backend
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
+paths:
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: User registered
+
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login successful
+
+  /api/v1/auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: New access token issued
+
+  /api/v1/projects:
+    get:
+      tags: [Projects]
+      summary: Get user projects
+      responses:
+        "200":
+          description: List of projects
+    post:
+      tags: [Projects]
+      summary: Create project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Project created
+
+  /api/v1/workspaces:
+    post:
+      tags: [Workspaces]
+      summary: Create workspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, project]
+              properties:
+                name:
+                  type: string
+                project:
+                  type: string
+      responses:
+        "201":
+          description: Workspace created
+
+  /api/v1/jobs:
+    post:
+      tags: [Jobs]
+      summary: Submit async job
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, payload]
+              properties:
+                type:
+                  type: string
+                payload:
+                  type: object
+      responses:
+        "202":
+          description: Job accepted
