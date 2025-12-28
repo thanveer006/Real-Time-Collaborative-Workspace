@@ -1,4 +1,4 @@
-PurpleMerit Backend Assessment
+Real-Time Collaborative Workspace
 
 A scalable backend system built as part of the Backend Developer Assessment – December 2025 for PurpleMerit.
 The application demonstrates clean architecture, secure authentication, real-time collaboration, background job processing, caching, and production-ready practices.
